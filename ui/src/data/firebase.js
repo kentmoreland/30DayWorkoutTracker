@@ -1,5 +1,8 @@
 import firebase from 'firebase';
+import 'firebase/firestore';
 import config from '@/firebaseConfig';
 
-const db = firebase.initializeApp(config);
-export default db;
+firebase.initializeApp(config);
+
+const fb = { dbase: firebase.firestore(), auth: firebase.auth() };
+export default fb;
