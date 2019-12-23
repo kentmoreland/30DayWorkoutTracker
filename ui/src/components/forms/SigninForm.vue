@@ -12,7 +12,6 @@
   </Form>
 </template>
 <script>
-import userController from '@/data/userController';
 
 export default {
   data() {
@@ -24,7 +23,9 @@ export default {
   methods: {
     async submit() {
       // get the result of this call and handle errors or set user.
-      await userController.signin(this.email, this.password);
+      const result = await this.$store
+        .dispatch('signin', { email: this.email, password: this.password });
+      console.log(result);
     },
   },
 };
