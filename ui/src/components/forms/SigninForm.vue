@@ -25,7 +25,9 @@ export default {
       // get the result of this call and handle errors or set user.
       const result = await this.$store
         .dispatch('signin', { email: this.email, password: this.password });
-      console.log(result);
+      if (result.user) {
+        this.$router.push('/dashboard');
+      }
     },
   },
 };

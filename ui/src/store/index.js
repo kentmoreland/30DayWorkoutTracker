@@ -17,13 +17,10 @@ const store = new Vuex.Store({
     signin: (state, payload) => fb.auth
       .signInWithEmailAndPassword(payload.email, payload.password).catch(e => e),
 
-    fetchCurrentUser: ({ commit }, user) => {
-      if (user) {
-        commit('setUser', user);
-      } else {
-        commit('setUser', null);
-      }
-    },
+    fetchCurrentUser: ({ commit }, user) => (user ? commit('setUser', user)
+      : commit('setUser', null)),
+
+    signOut: () => fb.auth.signOut(),
   },
   modules: {
   },
