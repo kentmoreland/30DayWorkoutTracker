@@ -10,7 +10,21 @@ const store = new Vuex.Store({
   },
   mutations: {
     setUser(state, user) {
+      const stringUser = JSON.stringify(user);
+      localStorage.setItem('user', stringUser);
       state.user = user;
+    },
+    removeUser(state) {
+      localStorage.removeItem('user');
+      state.user = null;
+    },
+  },
+  getters: {
+    getUser: (state) => {
+      if (state.user) { return state.user; }
+      const stringUser = localStorage.getItem('user');
+      const user = JSON.parse(stringUser);
+      return user;
     },
   },
   actions: {
@@ -20,7 +34,10 @@ const store = new Vuex.Store({
     fetchCurrentUser: ({ commit }, user) => (user ? commit('setUser', user)
       : commit('setUser', null)),
 
-    signOut: () => fb.auth.signOut(),
+    signOut: ({ commit }) => {
+      fb.auth.signOut();
+      commit('removeUser');
+    },
   },
   modules: {
   },

@@ -19,6 +19,9 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
+    meta: {
+      auth: true,
+    },
     component: () => import('../views/Dashboard.vue'),
   },
 ];
@@ -30,8 +33,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = Store.state.user;
-  if (!isAuthenticated && to.name !== 'signin') {
+  const isAuthenticated = Store.getters.getUser;
+  if (!isAuthenticated && to.meta.auth) {
     next('/signin');
   } else {
     next();
