@@ -14,6 +14,7 @@ const store = new Vuex.Store({
       localStorage.setItem('user', stringUser);
       state.user = user;
     },
+
     removeUser(state) {
       localStorage.removeItem('user');
       state.user = null;
@@ -37,6 +38,19 @@ const store = new Vuex.Store({
     signOut: ({ commit }) => {
       fb.auth.signOut();
       commit('removeUser');
+    },
+
+    createUser: async ({ commit }, payload) => {
+      const userResponse = await fb.auth
+        .createUserWithEmailAndPassword(payload.email, payload.password);
+      await fb.auth.currentUser.updateProfile({
+        displayName: payload.firstname,
+      });
+      await fb.dbase.collection('users').doc(userResponse.user.uid).set({
+        firstname: payload.firstname,
+        lastname: payload.lastname,
+      });
+      commit('setUser', userResponse.user);
     },
   },
   modules: {

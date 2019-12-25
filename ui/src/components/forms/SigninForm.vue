@@ -1,6 +1,6 @@
 <template>
   <Form class=form>
-    <h1 class="title">30-Day Login</h1>
+    <h1 class="title">30-Day Sign In</h1>
     <div class="input-container">
       <v-text-field label="Email" v-model="email" />
       <v-text-field label="Password" type="password" v-model="password" />
