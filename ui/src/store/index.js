@@ -29,8 +29,13 @@ const store = new Vuex.Store({
     },
   },
   actions: {
-    signin: (state, payload) => fb.auth
-      .signInWithEmailAndPassword(payload.email, payload.password).catch(e => e),
+    signin: async ({ commit }, payload) => {
+      const userResponse = await fb.auth
+        .signInWithEmailAndPassword(payload.email, payload.password)
+        .catch(e => e);
+      console.log(userResponse.user);
+      commit('setUser', userResponse.user);
+    },
 
     fetchCurrentUser: ({ commit }, user) => (user ? commit('setUser', user)
       : commit('setUser', null)),
@@ -51,6 +56,13 @@ const store = new Vuex.Store({
         lastname: payload.lastname,
       });
       commit('setUser', userResponse.user);
+    },
+
+    getWorkouts: async ({ state }) => {
+      const workouts = fb.dbase.collection('userWorkouts')
+        .doc(state.user.uid)
+        .collection('workoutList');
+      console.log(workouts);
     },
   },
   modules: {

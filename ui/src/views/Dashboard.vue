@@ -12,6 +12,9 @@ export default {
       this.$router.push('/signin');
     },
   },
+  mounted() {
+    this.$store.dispatch('getWorkouts');
+  },
 };
 </script>
 <style lang="scss">

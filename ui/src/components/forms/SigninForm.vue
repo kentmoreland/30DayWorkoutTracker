@@ -23,9 +23,9 @@ export default {
   methods: {
     async submit() {
       // get the result of this call and handle errors or set user.
-      const result = await this.$store
-        .dispatch('signin', { email: this.email, password: this.password });
-      if (result.user) {
+      await this.$store.dispatch('signin', { email: this.email, password: this.password });
+
+      if (this.$store.getters.getUser) {
         this.$router.push('/dashboard');
       }
     },
