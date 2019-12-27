@@ -58,11 +58,13 @@ const store = new Vuex.Store({
       commit('setUser', userResponse.user);
     },
 
-    getWorkouts: async ({ state }) => {
-      const workouts = fb.dbase.collection('userWorkouts')
-        .doc(state.user.uid)
-        .collection('workoutList');
-      console.log(workouts);
+    getWorkout: async ({ state }, payload) => {
+      const { id, exerciseType } = payload;
+      const workoutRef = await fb.dbase
+        .collection(`userWorkouts/${id}/${exerciseType}/`).get();
+      const workoutDocs = workoutRef.docs;
+      console.log(state);
+      return workoutDocs.map(doc => doc.data());
     },
   },
   modules: {
