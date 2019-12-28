@@ -48,6 +48,23 @@ const users = {
   },
 };
 
+const workouts = {
+  state: {
+    baseUrl: 'http://localhost:8072/workouts',
+  },
+  mutations: {
+  },
+  getters: {
+  },
+  actions: {
+    async addWorkout({ state }, formData) {
+      console.log(formData);
+      const submitUrl = `${state.baseUrl}/add`;
+      await axios.post(submitUrl, formData);
+    },
+  },
+};
+
 const store = new Vuex.Store({
   state: {
   },
@@ -59,6 +76,7 @@ const store = new Vuex.Store({
   },
   modules: {
     users,
+    workouts,
   },
 });
 

@@ -6,4 +6,7 @@ const Router = express.Router();
 Router.route('/')
   .get(workoutController.getWorkouts);
 
+Router.route('/add')
+  .post(workoutController.addWorkouts);
+
 module.exports = Router;
