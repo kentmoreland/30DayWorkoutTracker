@@ -5,8 +5,8 @@
       <v-text-field label="Firstname" v-model="firstname" />
       <v-text-field label="Lastname"  v-model="lastname" />
       <v-text-field label="Email"  v-model="email" />
-      <v-text-field label="Password"  v-model="password" />
-      <v-text-field label="Confirm Password"  v-model="confirmPassword" />
+      <v-text-field type="password" label="Password"  v-model="password" />
+      <v-text-field type="password" label="Confirm Password"  v-model="confirmPassword" />
     </div>
     <v-btn depressed color="grey" @click="submit">
       <v-icon>person</v-icon>
@@ -23,10 +23,11 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
+      submitUrl: 'http://localhost:8072/users/signup',
     };
   },
   methods: {
-    submit() {
+    async submit() {
       const data = {
         firstname: this.firstname,
         lastname: this.lastname,
@@ -34,7 +35,10 @@ export default {
         password: this.password,
         confirmPassword: this.password,
       };
-      this.$store.dispatch('createUser', data);
+      await this.$store.dispatch('signup', data);
+      if (this.$store.getters.getUser) {
+        this.$router.push('/dashboard');
+      }
     },
   },
 };
