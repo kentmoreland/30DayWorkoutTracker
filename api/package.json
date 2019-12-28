@@ -1,0 +1,29 @@
+{
+  "name": "30day_workout_tracker_api",
+  "version": "1.0.0",
+  "description": "API for the 30 day workout tracker app",
+  "main": "30Dstart.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kentmoreland/30DayWorkoutTracker.git"
+  },
+  "author": "Kent Moreland <kentmoreland@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kentmoreland/30DayWorkoutTracker/issues"
+  },
+  "homepage": "https://github.com/kentmoreland/30DayWorkoutTracker#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "mongodb": "^3.4.1"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1"
+  }
+}

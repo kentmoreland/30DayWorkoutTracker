@@ -7,8 +7,8 @@
 <script>
 export default {
   methods: {
-    signOut() {
-      this.$store.dispatch('signOut');
+    async signOut() {
+      this.$store.dispatch('signout');
       this.$router.push('/signin');
     },
   },

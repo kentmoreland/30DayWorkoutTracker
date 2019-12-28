@@ -1,62 +1,66 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import fb from '@/data/firebase';
+import axios from 'axios';
 
 Vue.use(Vuex);
-
-const store = new Vuex.Store({
+const users = {
   state: {
     user: null,
+    baseUrl: 'http://localhost:8072/users',
   },
   mutations: {
-    setUser(state, user) {
-      const stringUser = JSON.stringify(user);
+    setUser: (state, newUser) => {
+      state.user = newUser;
+      const stringUser = JSON.stringify(newUser);
       localStorage.setItem('user', stringUser);
-      state.user = user;
     },
 
-    removeUser(state) {
-      localStorage.removeItem('user');
+    removeUser: (state) => {
       state.user = null;
+      localStorage.removeItem('user');
     },
   },
   getters: {
     getUser: (state) => {
       if (state.user) { return state.user; }
-      const stringUser = localStorage.getItem('user');
-      const user = JSON.parse(stringUser);
-      return user;
+      if (localStorage.getItem('user')) { return JSON.parse(localStorage.getItem('user')); }
+      return null;
     },
   },
   actions: {
-    signin: (state, payload) => fb.auth
-      .signInWithEmailAndPassword(payload.email, payload.password).catch(e => e),
+    async signup({ commit, state }, formData) {
+      const submitUrl = `${state.baseUrl}/signup`;
+      const result = await axios.post(submitUrl, formData);
+      const { payload: user } = result.data;
+      commit('setUser', user);
+    },
 
-    fetchCurrentUser: ({ commit }, user) => (user ? commit('setUser', user)
-      : commit('setUser', null)),
+    async signin({ commit, state }, formData) {
+      const submitUrl = `${state.baseUrl}/signin`;
+      const result = await axios.post(submitUrl, formData);
+      const { payload: user } = result.data;
+      commit('setUser', user);
+    },
 
-    signOut: ({ commit }) => {
-      fb.auth.signOut();
+    async signout({ commit }) {
       commit('removeUser');
     },
+  },
+};
 
-    createUser: async ({ commit }, payload) => {
-      const userResponse = await fb.auth
-        .createUserWithEmailAndPassword(payload.email, payload.password);
-      await fb.auth.currentUser.updateProfile({
-        displayName: payload.firstname,
-      });
-      await fb.dbase.collection('users').doc(userResponse.user.uid).set({
-        firstname: payload.firstname,
-        lastname: payload.lastname,
-      });
-      commit('setUser', userResponse.user);
-    },
+const store = new Vuex.Store({
+  state: {
+  },
+  mutations: {
+  },
+  getters: {
+  },
+  actions: {
   },
   modules: {
+    users,
   },
 });
 
-fb.auth.onAuthStateChanged(user => store.dispatch('fetchCurrentUser', user));
 
 export default store;
