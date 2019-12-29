@@ -10,10 +10,16 @@
       <v-icon>person</v-icon>
       Create
     </v-btn>
+    <WorkoutList />
   </Form>
 </template>
 <script>
+import WorkoutList from '@/components/WorkoutList.vue';
+
 export default {
+  components: {
+    WorkoutList,
+  },
   data() {
     return {
       inputs: ['exerciseType', 'duration', 'date'],
@@ -26,11 +32,15 @@ export default {
   methods: {
     async submit() {
       /* eslint-disable no-param-reassign */
+      /* eslint-disable no-underscore-dangle */
       const formData = this.inputs.reduce((data, input) => {
         data[input] = this[input];
         return data;
       }, {});
+      const userId = this.$store.getters.getUser._id;
+      formData.userId = userId;
       await this.$store.dispatch('addWorkout', formData);
+      await this.$store.dispatch('fetchWorkouts', userId);
       // TODO: Check for error before clearing form
       this.inputs.forEach((input) => { this[input] = ''; });
     },
@@ -40,7 +50,7 @@ export default {
 <style lang="scss">
   .form {
       background-color: white;
-      margin: auto;
+      margin: 2em auto;
       padding: 1em;
       width: 30em;
       .title {

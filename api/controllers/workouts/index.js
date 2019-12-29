@@ -1,6 +1,11 @@
 exports.getWorkouts = async (req, res) => {
-  console.log(res.locals.db);
-  res.send('test');
+  const { db } = res.locals;
+  const { id } = req.params.id;
+  const result = await db.collection('workouts').find({user: id}).toArray();;
+  res.send({
+    message: 'Successful workouts request',
+    payload: result
+  });
 }
 
 exports.addWorkouts = async (req, res) => {
@@ -8,7 +13,7 @@ exports.addWorkouts = async (req, res) => {
 
   const result = await db.collection('workouts').insertOne(req.body);
   res.send({
-    message: 'Successful signup',
+    message: 'Successful workout update',
     payload: result
   });
 };
