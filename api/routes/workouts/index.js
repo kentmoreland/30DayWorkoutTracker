@@ -3,7 +3,7 @@ const workoutController = require('../../controllers/workouts');
 
 const Router = express.Router();
 
-Router.route('/')
+Router.route('/:id')
   .get(workoutController.getWorkouts);
 
 Router.route('/add')
