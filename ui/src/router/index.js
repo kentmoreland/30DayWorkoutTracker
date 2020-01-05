@@ -37,6 +37,14 @@ const routes = [
     },
     component: () => import('../views/AddWorkout.vue'),
   },
+  {
+    path: '/exerciselog',
+    name: 'exerciselog',
+    meta: {
+      auth: true,
+    },
+    component: () => import('../views/ExerciseLog.vue'),
+  },
 ];
 
 const router = new VueRouter({
