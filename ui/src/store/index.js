@@ -58,6 +58,7 @@ const workouts = {
   state: {
     baseUrl: 'http://localhost:8072/workouts',
     workouts: null,
+    currentWorkout: null,
   },
   mutations: {
     setWorkouts(state, newWorkouts) {
